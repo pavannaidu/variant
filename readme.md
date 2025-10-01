@@ -1,8 +1,8 @@
-# JSON Data Processing in Databricks
+# Semi-Structured Data Processing in Databricks
 
 > **⚠️ Disclaimer**: This code was developed using Cursor and AI assistance. Please review (human) it thoroughly before using in production workloads.
 
-Two approaches for handling JSON data: `parse_json` (VARIANT) and `from_json` with schema evolution.
+Two approaches for handling semi-structured data (JSON, XML, CSV) using `parse_json` (VARIANT) and `from_json` with schema evolution. This guide uses JSON as the primary example, but the concepts apply to XML and CSV formats as well.
 
 ## parse_json (VARIANT)
 
