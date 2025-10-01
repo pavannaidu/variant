@@ -85,6 +85,21 @@ from_json(jsonStr, schema)
 - **Use `parse_json` (VARIANT)**: Semi-structured data, frequent schema changes, maximum flexibility
 - **Use `from_json`**: Strict schemas, type enforcement, optimized storage/performance
 
+
+## Variant Shredding for Enhanced Performance
+
+Variant shredding is a powerful optimization feature that dramatically improves query performance on `VARIANT` columns by automatically extracting commonly accessed fields into separate Parquet columns. This reduces I/O overhead and improves compression by leveraging columnar storage instead of binary blob storage.
+
+### Key Benefits of Variant Shredding
+
+- **Reduced I/O**: Commonly accessed fields are stored as separate columns, eliminating the need to parse entire JSON blobs
+- **Better Compression**: Columnar storage provides superior compression compared to binary JSON storage
+- **Automatic Optimization**: No code changes required - works transparently with existing `VARIANT` queries
+- **Zero Downtime**: Existing queries continue to work while benefiting from performance improvements
+
+
+**⚠️ Important**: Variant shredding requires **Databricks Runtime 17.2 or above**. 
+
 ## Execution Environment
 
 This project uses **Databricks Connect** as the execution environment, which allows you to:
@@ -99,4 +114,5 @@ Databricks Connect bridges your local development environment with Databricks' c
 
 - [from_json Schema Evolution](https://docs.databricks.com/aws/en/dlt/from-json-schema-evolution)
 - [Variant Data Type](https://www.databricks.com/blog/introducing-open-variant-data-type-delta-lake-and-apache-spark)
+- [Variant Shredding Documentation](https://docs.databricks.com/aws/en/delta/variant-shredding)
 
