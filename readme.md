@@ -2,17 +2,21 @@
 
 > **⚠️ Disclaimer**: This code was developed using Cursor and AI assistance. Please review (human) it thoroughly before using in production workloads.
 
-Two approaches for handling semi-structured data (JSON, XML, CSV) using `parse_json` (VARIANT) and `from_json` with schema evolution. This guide uses JSON as the primary example, but the concepts apply to XML and CSV formats as well.
+This guide uses JSON as the primary example, but the concepts apply to XML and CSV formats as well. Two approaches for handling semi-structured data (JSON, XML, CSV) using `parse_json` (VARIANT) and `from_json` with schema evolution.
+
+## Variant: The Open Standard for Semi-Structured Data
+
+Variant has been **ratified in the Apache Parquet™ community** (October 2025) and is now the open standard for semi-structured data across the entire lakehouse ecosystem:
+
+### Highlights
+- **30x faster reads** compared to storing JSON as strings (with shredding)
+- **8x faster reads** with regular Variant (without shredding)
+- **Binary encoding** with offset-based navigation - no need to parse entire values
+- **Columnar shredding** for commonly accessed fields improves compression and I/O
 
 ## parse_json (VARIANT)
 
 The `parse_json` function returns a `VARIANT` value, providing flexible storage for semi-structured data without strict schema requirements.
-
-### Key Benefits
-- **8x Performance Improvement** over JSON strings
-- **Binary Encoding** for faster access
-- **Open Source** (Spark 4.0+ and Delta 4.0+)
-- **Flexible Schema** - no need to define schemas for evolving data
 
 ### Usage
 
@@ -114,5 +118,6 @@ Databricks Connect bridges your local development environment with Databricks' c
 
 - [from_json Schema Evolution](https://docs.databricks.com/aws/en/dlt/from-json-schema-evolution)
 - [Variant Data Type](https://www.databricks.com/blog/introducing-open-variant-data-type-delta-lake-and-apache-spark)
+- [Variant as an Open Standard in Apache Parquet, Delta Lake, and Apache Iceberg](https://www.databricks.com/blog/introducing-variant-new-open-standard-semi-structured-data-apache-parquettm-delta-lake)
 - [Variant Shredding Documentation](https://docs.databricks.com/aws/en/delta/variant-shredding)
 
