@@ -44,7 +44,7 @@ SELECT data:array[0] FROM my_table;        -- Array access
 
 ## from_json with Schema Evolution
 
-The `from_json` function parses JSON and returns a struct value with automatic schema inference and evolution (requires Lakeflow Declarative Pipelines).
+The `from_json` function parses JSON and returns a struct value with automatic schema inference and evolution (requires Spark Declarative Pipelines).
 
 ### Key Features
 - **Automatic Schema Inference** - detects new fields automatically
@@ -82,7 +82,7 @@ from_json(jsonStr, schema)
 | Function | Best For | Availability |
 |----------|----------|--------------|
 | `parse_json` | Flexible data, changing schemas, no type enforcement | All Databricks environments |
-| `from_json` | Strict schemas, type enforcement, optimized performance | Lakeflow Declarative Pipelines only |
+| `from_json` | Strict schemas, type enforcement, optimized performance | Spark Declarative Pipelines only |
 
 ## When to Choose
 

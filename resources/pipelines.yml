@@ -1,0 +1,33 @@
+# Spark Declarative Pipelines Definitions
+# This file contains all SDP pipeline configurations
+
+resources:
+  pipelines:
+    user_schema_evolution_pipeline:
+      name: "[${bundle.target}] User Schema Evolution Pipeline"
+      
+      # Pipeline libraries - notebooks to run
+      libraries:
+        - notebook:
+            path: ../src/SDP/pipeline.ipynb
+      
+      # Target catalog and schema
+      catalog: ${var.catalog}
+      schema: ${var.schema}
+      
+      # Configuration parameters passed to the notebook via spark.conf
+      configuration:
+        catalog: ${var.catalog}
+        schema: ${var.schema}
+        volume: ${var.volume}
+        source_path: /Volumes/${var.catalog}/${var.schema}/${var.volume}/users_stream
+      
+      # Pipeline settings
+      development: true
+      photon: true
+      serverless: true
+      channel: CURRENT
+      
+      # Pipeline mode: triggered (batch) or continuous
+      continuous: false
+
