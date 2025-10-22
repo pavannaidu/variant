@@ -1,4 +1,4 @@
-# How to Run: Schema Evolution Demo
+# How to Run
 
 This guide walks you through demonstrating automatic schema evolution in Databricks Spark Declarative Pipelines.
 
