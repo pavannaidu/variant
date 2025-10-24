@@ -135,7 +135,7 @@ To reset and run the demo again:
 
 1. Run **Cell 9** in `faker.ipynb` to delete all generated data
 2. Stop the pipeline in Databricks
-3. Drop the tables:
+3. Drop the tables
    ```sql
    DROP TABLE IF EXISTS users_bronze;
    DROP TABLE IF EXISTS users_silver;

@@ -42,7 +42,7 @@ SELECT data:array[0] FROM my_table;        -- Array access
 - You want maximum flexibility
 - Type mismatches shouldn't cause failures
 
-## from_json with Schema Evolution
+## from_json with Spark Declarative Pipelines
 
 The `from_json` function parses JSON and returns a struct value with automatic schema inference and evolution (requires Spark Declarative Pipelines).
 
