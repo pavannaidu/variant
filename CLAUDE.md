@@ -10,9 +10,10 @@
 
 ```
 variant/
-├── databricks.yml              # Databricks Asset Bundle config (variables, targets)
+├── databricks.yml              # Databricks Asset Bundle config (variables, dev/prod targets)
 ├── deployment.md               # Deployment guide and CLI commands
 ├── readme.md                   # Main docs: VARIANT type, parse_json vs from_json
+├── requirements.txt            # Python dependencies (faker)
 ├── resources/
 │   ├── images/pipeline.png     # Architecture diagram
 │   └── pipelines.yml           # SDP pipeline definition (Photon, serverless)
@@ -36,28 +37,32 @@ This project uses **Databricks Asset Bundles (DAB)** — no npm/pip/make. All co
 
 ```bash
 databricks bundle validate          # Validate config
-databricks bundle deploy            # Deploy to workspace
+databricks bundle deploy            # Deploy to workspace (dev target by default)
 databricks bundle run <pipeline>    # Execute a pipeline
 databricks bundle destroy           # Clean up deployment
 ```
 
 Configuration variables in `databricks.yml`: `workspace_url`, `catalog`, `schema`, `volume`.
 
+Two deployment targets are defined: `dev` (default, development mode) and `prod` (production, continuous pipeline).
+
 ## Architecture
 
 **Medallion pattern (Bronze → Silver → Gold):**
 
 1. **Bronze** (`users_bronze`) — Raw JSON ingested via `from_json()` with schema evolution (`addNewColumns`, schema hints, `rescue` mode)
-2. **Silver** (`users_silver`) — Flattened columns, data quality expectations enforced via `@dp.expect_or_drop`
-3. **Gold** — Aggregation tables (`user_stats_by_occupation`, `user_geographic_summary`)
+2. **Silver** (`users_silver`) — Flattened columns from all three schema phases (including social_media, subscription, metrics), data quality expectations via `@dp.expect_or_drop`, streaming deduplication on `user_id`
+3. **Gold** — Aggregation tables (`user_stats_by_occupation`, `user_geographic_summary`) using `spark.read.table()` consistently
 
 ## Code Conventions
 
-- **Config constants** at top of notebooks: `CATALOG`, `SCHEMA`, `VOLUME`
+- **Config via spark.conf** — Notebooks read `CATALOG`, `SCHEMA`, `VOLUME` from `spark.conf.get()` with defaults, matching the DAB pipeline configuration approach
 - **Spark session** obtained via `DatabricksSession.builder.getOrCreate()` with fallback
 - **VARIANT field access** in SQL: `column:field`, `column:field.subfield`, `column:array[index]`
 - **SDP tables** use decorator pattern: `@dp.table()` + `@dp.expect_or_drop()`
-- **Data generation** uses `faker==23.0.0`, installed per-notebook via `%pip install`
+- **Data generation** uses a unified `generate_users(phase, num_records)` function to avoid duplication across schema phases
+- **Dependencies** pinned in `requirements.txt` (`faker==23.0.0`), installed per-notebook via `%pip install`
+- **Error handling** — Use `except Exception as e` with logged messages; never use bare `except:` or silently swallow errors
 - **No formal test suite** — validation is done through SDP expectations and manual notebook runs
 
 ## Testing & Validation

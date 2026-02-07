@@ -1,6 +1,6 @@
 # How to Run
 
-This guide walks you through demonstrating automatic schema evolution in Databricks Spark Declarative Pipelines.
+This guide walks you through demonstrating automatic schema evolution using Databricks Spark Declarative Pipelines (SDP).
 
 ## Overview
 

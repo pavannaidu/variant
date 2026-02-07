@@ -1,2 +1,21 @@
-.vscode
-.databricks
+# IDE
+.vscode/
+.idea/
+
+# Databricks
+.databricks/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment
+.env
+.env.local
